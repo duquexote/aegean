@@ -36,6 +36,11 @@ export default function Hero() {
             console.error('Erro ao salvar lead:', error.message)
         }
 
+        // Dispara evento de conversão no Meta Pixel
+        if (typeof window.fbq === 'function') {
+            window.fbq('track', 'Lead')
+        }
+
         window.location.href = 'https://chat.whatsapp.com/KOGuUGX5BGm9cAYgXMIh2h'
     }
 
@@ -46,7 +51,6 @@ export default function Hero() {
                 <div className="logo-area">
                     <img src="/images/logo-aegean-azul.webp" alt="Aegean Watches &amp; Jewelry" className="logo-img" style={{ maxWidth: '100%', height: 'auto', maxHeight: '90px' }} />
                 </div>
-                <div className="hero-divider" />
                 <h1>
                     As peças mais <em>raras do Brasil</em><br />estão em um único lugar.
                 </h1>
