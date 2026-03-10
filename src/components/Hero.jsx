@@ -1,10 +1,50 @@
-export default function Hero({ onOpenModal }) {
+import { useState } from 'react'
+import { supabase } from '../lib/supabase'
+
+export default function Hero() {
+    const [form, setForm] = useState({ nome: '', telefone: '', relogio: '' })
+    const [errors, setErrors] = useState({})
+    const [loading, setLoading] = useState(false)
+
+    function handleChange(e) {
+        setForm({ ...form, [e.target.name]: e.target.value })
+        setErrors({ ...errors, [e.target.name]: '' })
+    }
+
+    function validate() {
+        const errs = {}
+        if (!form.nome.trim()) errs.nome = 'Nome obrigatório'
+        if (!form.telefone.trim()) errs.telefone = 'Telefone obrigatório'
+        if (!form.relogio) errs.relogio = 'Selecione uma opção'
+        return errs
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        const errs = validate()
+        if (Object.keys(errs).length > 0) {
+            setErrors(errs)
+            return
+        }
+        setLoading(true)
+
+        const { error } = await supabase
+            .from('leads')
+            .insert([{ nome: form.nome, telefone: form.telefone, relogio: form.relogio }])
+
+        if (error) {
+            console.error('Erro ao salvar lead:', error.message)
+        }
+
+        window.location.href = 'https://chat.whatsapp.com/KOGuUGX5BGm9cAYgXMIh2h'
+    }
+
     return (
         <section className="hero">
             <div className="hero-bg" />
             <div className="hero-content">
                 <div className="logo-area">
-                    <img src="/images/logo-aegean-azul.webp" alt="Aegean Watches & Jewelry" className="logo-img" style={{ maxWidth: '100%', height: 'auto', maxHeight: '90px' }} />
+                    <img src="/images/logo-aegean-azul.webp" alt="Aegean Watches &amp; Jewelry" className="logo-img" style={{ maxWidth: '100%', height: 'auto', maxHeight: '90px' }} />
                 </div>
                 <div className="hero-divider" />
                 <h1>
@@ -13,14 +53,68 @@ export default function Hero({ onOpenModal }) {
                 <p className="hero-sub">
                     Modelos raros. Preços exclusivos. Autenticidade garantida — para quem leva coleção a sério.
                 </p>
-                <div className="hero-badge">Vagas limitadas · Acesso por aprovação</div>
-                <div className="hero-cta">
-                    <button className="btn-primary" onClick={onOpenModal}>QUERO MEU ACESSO</button>
+
+                {/* Container do formulário */}
+                <div className="hero-form-container">
+                    <form className="hero-form" onSubmit={handleSubmit} noValidate>
+                        <div className="hero-form-group">
+                            <label htmlFor="hero-nome">Nome completo</label>
+                            <input
+                                id="hero-nome"
+                                name="nome"
+                                type="text"
+                                placeholder="Seu nome completo"
+                                value={form.nome}
+                                onChange={handleChange}
+                                autoComplete="name"
+                            />
+                            {errors.nome && <span className="hero-form-error">{errors.nome}</span>}
+                        </div>
+
+                        <div className="hero-form-group">
+                            <label htmlFor="hero-telefone">Telefone (WhatsApp)</label>
+                            <input
+                                id="hero-telefone"
+                                name="telefone"
+                                type="tel"
+                                placeholder="(11) 99999-9999"
+                                value={form.telefone}
+                                onChange={handleChange}
+                                autoComplete="tel"
+                            />
+                            {errors.telefone && <span className="hero-form-error">{errors.telefone}</span>}
+                        </div>
+
+                        <div className="hero-form-group">
+                            <label>Você já possui algum relógio de luxo?</label>
+                            <div className="hero-radio-group">
+                                {['Sim, tenho', 'Não tenho ainda', 'Já tive, mas vendi'].map(opt => (
+                                    <label key={opt} className="hero-radio-label">
+                                        <input
+                                            type="radio"
+                                            name="relogio"
+                                            value={opt}
+                                            checked={form.relogio === opt}
+                                            onChange={handleChange}
+                                        />
+                                        <span>{opt}</span>
+                                    </label>
+                                ))}
+                            </div>
+                            {errors.relogio && <span className="hero-form-error">{errors.relogio}</span>}
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="btn-primary hero-form-btn"
+                            disabled={loading}
+                        >
+                            {loading ? 'Aguarde…' : 'QUERO MEU ACESSO'}
+                        </button>
+                    </form>
+
+                    <div className="hero-badge">Vagas limitadas · Acesso por aprovação</div>
                 </div>
-            </div>
-            <div className="scroll-hint">
-                <span>Descubra</span>
-                <div className="scroll-line" />
             </div>
         </section>
     )

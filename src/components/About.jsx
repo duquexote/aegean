@@ -13,7 +13,7 @@ export default function About() {
     return (
         <section className="about">
             <div className="about-image">
-                <img src="/images/eduardo.png" alt="Eduardo Dourado — Aegean" />
+                <img src="/images/eduardo.webp" alt="Eduardo Dourado — Aegean" />
                 <div className="about-image-overlay" />
             </div>
             <div className="about-content">

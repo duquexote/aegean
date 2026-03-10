@@ -21,7 +21,7 @@ const faqs = [
     },
     {
         q: 'Como são feitas as entregas?',
-        a: 'Entregamos em todo o Brasil com seguro e rastreamento completo. Embalagem discreta e segura do primeiro contato até a chegada na sua porta.',
+        a: 'Entregamos em todo o Brasil. De preferência, a entrega é feita sempre em mãos ao comprador via portadores de confiança. Eventualmente utilizamos transportadora, com seguro e rastreamento completo.',
     },
     {
         q: 'Quem pode participar da comunidade?',
