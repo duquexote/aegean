@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { supabase } from '../lib/supabase'
 
 export default function Hero() {
     const [form, setForm] = useState({ nome: '', telefone: '', relogio: '' })
@@ -28,20 +27,28 @@ export default function Hero() {
         }
         setLoading(true)
 
-        const { error } = await supabase
-            .from('leads')
-            .insert([{ nome: form.nome, telefone: form.telefone, relogio: form.relogio }])
+        try {
+            await fetch('https://webhook.takeovers.com.br/webhook/29e9454e-5caa-4d8f-b9df-00366c8d3557', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nome: form.nome,
+                    telefone: form.telefone,
+                    relogio: form.relogio
+                })
+            })
 
-        if (error) {
-            console.error('Erro ao salvar lead:', error.message)
+            if (typeof window.fbq === 'function') {
+                window.fbq('track', 'Lead')
+            }
+
+            window.location.href = 'https://chat.whatsapp.com/KOGuUGX5BGm9cAYgXMIh2h'
+        } catch (error) {
+            console.error('Erro ao enviar lead:', error)
+            setLoading(false)
         }
-
-        // Dispara evento de conversão no Meta Pixel
-        if (typeof window.fbq === 'function') {
-            window.fbq('track', 'Lead')
-        }
-
-        window.location.href = 'https://chat.whatsapp.com/KOGuUGX5BGm9cAYgXMIh2h'
     }
 
     return (
