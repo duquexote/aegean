@@ -1130,3 +1130,85 @@ footer {
     font-size: 14px;
   }
 }
+
+/* ── CONFIRM POPUP ── */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(13, 21, 32, 0.78);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: overlayIn 0.25s ease both;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.confirm-modal {
+  background: var(--navy);
+  border: 1px solid rgba(184, 152, 106, 0.28);
+  max-width: 460px;
+  width: 100%;
+  padding: 44px 40px 36px;
+  text-align: center;
+  animation: modalUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes modalUp {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.confirm-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(184, 152, 106, 0.35);
+  border-radius: 50%;
+  margin: 0 auto 28px;
+  color: var(--gold);
+}
+
+.confirm-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 400;
+  color: var(--ivory);
+  line-height: 1.55;
+  margin-bottom: 32px;
+}
+
+.confirm-text strong {
+  color: var(--gold-light);
+  font-weight: 600;
+}
+
+.confirm-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 16px 32px;
+  background: var(--gold);
+  color: var(--navy-deep);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.2s;
+}
+
+.confirm-btn:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}

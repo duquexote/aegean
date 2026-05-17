@@ -4,6 +4,7 @@ export default function Hero() {
     const [form, setForm] = useState({ nome: '', telefone: '', relogio: '' })
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
 
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -44,14 +45,39 @@ export default function Hero() {
                 window.fbq('track', 'Lead')
             }
 
-            window.location.href = 'https://chat.whatsapp.com/KOGuUGX5BGm9cAYgXMIh2h'
+            setLoading(false)
+            setShowConfirm(true)
         } catch (error) {
             console.error('Erro ao enviar lead:', error)
             setLoading(false)
         }
     }
 
+    function handleConfirm() {
+        window.location.href = 'https://chat.whatsapp.com/KOGuUGX5BGm9cAYgXMIh2h'
+    }
+
     return (
+        <>
+        {showConfirm && (
+            <div className="confirm-overlay" onClick={() => setShowConfirm(false)}>
+                <div className="confirm-modal" onClick={e => e.stopPropagation()}>
+                    <div className="confirm-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
+                    </div>
+                    <p className="confirm-text">
+                        Você está ciente que dentro dessa comunidade <strong>não vendemos réplicas</strong> e que vendemos somente <strong>relógios originais e autenticados</strong>?
+                    </p>
+                    <button className="confirm-btn" onClick={handleConfirm}>
+                        Sim, estou ciente →
+                    </button>
+                </div>
+            </div>
+        )}
         <section className="hero">
             <div className="hero-bg" />
             <div className="hero-content">
@@ -128,5 +154,6 @@ export default function Hero() {
                 </div>
             </div>
         </section>
+        </>
     )
 }
