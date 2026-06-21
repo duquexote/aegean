@@ -54,7 +54,7 @@ export default function Hero() {
     }
 
     function handleConfirm() {
-        window.location.href = 'https://chat.whatsapp.com/KOGuUGX5BGm9cAYgXMIh2h'
+        window.location.href = 'https://chat.whatsapp.com/GM9VkDa96Lr08crcsALvW8'
     }
 
     return (
